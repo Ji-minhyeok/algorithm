@@ -1,12 +1,14 @@
-alphaMap = {}
-result = 0
-for i in range(ord('z')-ord('a')+1):
-    alphaMap.update({chr(ord('a')+i):i+1})
-
 n = int(input())
-arr=input()
+arr = input()
 
-for i in range(len(arr)):
-    result += alphaMap.get(arr[i])*(31**i)
+M = 1234567891
+r = 31
+result = 0
+power = 1
+
+for i in range(n):
+    value = ord(arr[i]) - ord('a') + 1
+    result = (result + value * power) % M
+    power = (power * r) % M
 
 print(result)
