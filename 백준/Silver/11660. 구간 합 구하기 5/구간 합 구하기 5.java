@@ -23,12 +23,17 @@ public class Main {
             }
         }
 
-        int[][] sumArr = new int[n][n]; // 배열의 합배열 n * n 생성
-        for (int i = 0; i < n; i++) { // n번 반복
-            for (int j = 0; j < n; j++) { // n번 반복
-                if (j == 0) { // 더한 값이 없는 배열의 각 행의 0번째 값 지정
-                    sumArr[i][j] = arr[i][j];
-                } else sumArr[i][j] = sumArr[i][j - 1] + arr[i][j]; // 배열의 각 행의 j번 까지의 합 저장
+        int[][] sumArr = new int[n][n]; // 배열의 2차원 구간 합배열 n * n 생성
+        sumArr[0][0] = arr[0][0]; // [1, 1] 지정
+        for (int y = 1; y < n; y++) { // 첫 행 값 초기화
+            sumArr[0][y] = sumArr[0][y-1] + arr[0][y];
+        }
+        for (int x = 1; x < n; x++){ // 첫 열 값 초기화
+            sumArr[x][0] = sumArr[x-1][0] + arr[x][0];
+        }
+        for (int x = 1; x < n; x++) { // 나머지 구간 채우기
+            for (int y = 1; y < n; y++) { // n번 반복
+                sumArr[x][y] = sumArr[x-1][y] + sumArr[x][y-1] - sumArr[x-1][y-1] + arr[x][y];
             }
         }
 
@@ -36,18 +41,22 @@ public class Main {
             input = br.readLine();  // 한 줄씩 입력받음
             st = new StringTokenizer(input);
             //x, y좌표 받기
-            int x1 = Integer.parseInt(st.nextToken()); // 행
-            int y1 = Integer.parseInt(st.nextToken()); // 열
-            int x2 = Integer.parseInt(st.nextToken()); // 행
-            int y2 = Integer.parseInt(st.nextToken()); // 열
+            int x1 = Integer.parseInt(st.nextToken())-1; // 행
+            int y1 = Integer.parseInt(st.nextToken())-1; // 열
+            int x2 = Integer.parseInt(st.nextToken())-1; // 행
+            int y2 = Integer.parseInt(st.nextToken())-1; // 열
             int result = 0;
 
-            for (int x = x1 - 1; x <= x2 - 1; x++) { // 행 조건
-                if (y1 == 1) { // 시작 열이 1인 경우 끝 열의 구간 합과 같다.
-                    result += sumArr[x][y2 - 1];
-                } else result += sumArr[x][y2 - 1] - sumArr[x][y1 - 2];
+            if(x1 == 0 && y1 != 0){ // x = 1 일 때 
+                result += sumArr[x2][y2] - sumArr[x2][y1-1];
+            }else if(x1 != 0 && y1 == 0){ // y = 1 일 때
+                result += sumArr[x2][y2] - sumArr[x1-1][y2];
+            }else if(x1 == 0 && y1 == 0){ // x, y = 1 일 때
+                result += sumArr[x2][y2];
+            }else { // 그 외에는 중복하여 뺀 구간을 더한다.
+                result += sumArr[x2][y2] - sumArr[x2][y1 - 1] - sumArr[x1 - 1][y2] + sumArr[x1 - 1][y1 - 1];
             }
-            if (i == m - 1) {
+            if (i == m - 1) { // 마지막 문자열 처리
                 bw.write(String.valueOf(result));
             } else bw.write(String.valueOf(result) + '\n');
         }
