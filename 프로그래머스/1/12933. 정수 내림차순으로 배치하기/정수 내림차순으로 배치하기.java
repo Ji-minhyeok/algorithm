@@ -14,14 +14,14 @@ class Solution {
             arr[i] = str.charAt(i) - '0';
         }
         
-        Arrays.sort(arr, Collections.reverseOrder());
+        Arrays.sort(arr);
         
         StringBuilder sb = new StringBuilder();
         
         for(int i = 0; i < length; i++){
             sb.append(arr[i]);
         }
-        answer = Long.parseLong(sb.toString());
+        answer = Long.parseLong(sb.reverse().toString());
         return answer;
     }
 }
