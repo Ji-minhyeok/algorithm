@@ -1,23 +1,15 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Arrays;
 
 class Solution {
     public int solution(int[] d, int budget) {
         int sum = 0;
         int count = 0;
 
-        List<Integer> sortedList = new ArrayList<>();
+
+        Arrays.sort(d);
+        
 
         for (int al : d) {
-            sortedList.add(al);
-        }
-
-        Collections.sort(sortedList);
-
-
-
-        for (Integer al : sortedList) {
             if (sum + al <= budget) {
                 sum += al;
                 count++;
