@@ -1,16 +1,14 @@
 class Solution {
     public boolean solution(int x) {
-        boolean answer = false;
+        int hashard = x;
         int sum = 0;
-        
-        // 자릿수의 합 구하기
-        String str = String.valueOf(x);
-        for(int i = 0; i < str.length(); i++){
-            sum += str.charAt(i) - '0';
+        while(hashard > 0){
+            sum += hashard % 10;
+            hashard = hashard / 10;
         }
-        
-        if(x % sum == 0) answer = true;
-        
-        return answer;
+        if(x % sum == 0){
+            return true;
+        }
+        return false;
     }
 }
