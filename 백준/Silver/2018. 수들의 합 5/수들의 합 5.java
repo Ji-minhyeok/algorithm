@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.*;
 public class Main {
@@ -8,31 +7,33 @@ public class Main {
 
         int n = Integer.parseInt(br.readLine());
 
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = i + 1;
+        // 구간합 저장을 위한 배열 초기화
+        int[] arr = new int[n+1];
+        for (int i = 1; i <= n; i++){
+            arr[i] = arr[i-1] + i;
         }
-        // 투 인덱스
+
+        // 투 포인터
         int startIndex = 0;
-        int endIndex = 0;
-        // 투 인덱스 구간의 합
-        int sum = 1;
-        // 만족하는 자연수의 합 개수 ( endIndex = n 인 경우 미리 고려)
+        int endIndex = 1;
+
+        // 'n = n'의 경우 고려
         int result = 1;
 
-        while (endIndex != n - 1) {
-            if (sum == n) { // 값이 같으면 결과 +1, end 범위를 1 늘려 탐색
-                result++;
+        // 종료 인덱스가 n에 도래하기 전까지
+        while(endIndex != n){
+            if(arr[endIndex] - arr[startIndex] == n){
+                result ++;
                 endIndex++;
-                sum += arr[endIndex];
-            } else if (sum > n) { // 합이 더 크면 start 범위 축소
-                sum -= arr[startIndex];
+            // 연산 결과가 더 크다면 시작 인덱스 +1
+            }else if(arr[endIndex] - arr[startIndex] > n){
                 startIndex++;
-            } else {
-                endIndex++; // 합이 더 작으면 end 범위 증가
-                sum += arr[endIndex];
+            // 연산 결과가 더 크다면 종료 인덱스 +1
+            }else if(arr[endIndex] - arr[startIndex] < n){
+                endIndex++;
             }
         }
+
         // 출력
         bw.write(String.valueOf(result));
         bw.flush();
